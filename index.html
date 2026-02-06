@@ -147,15 +147,36 @@
             z-index: 1000;
         }
 
+        #close-footer-btn {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: var(--transition);
+            z-index: 1001;
+            user-select: none;
+        }
+
+        #close-footer-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
         #footer.hide {
             transform: translate(-50%, 95%);
             opacity: 0.2;
         }
 
-        #footer.hide:hover {
-            transform: translate(-50%, 0);
-            opacity: 1;
-        }
+
 
         .input-group {
             display: flex;
@@ -238,8 +259,8 @@
             #footer {
                 width: 100%;
                 border-radius: 0;
-                padding: 0.75rem 1rem;
-                /* Reduced padding on mobile */
+                padding: 1.5rem 1rem 0.75rem 1rem;
+                /* Increased top padding to clear close button */
                 gap: 0.5rem;
             }
 
@@ -297,6 +318,7 @@
 
     <!-- Auto-hiding Footer -->
     <div id="footer">
+        <div id="close-footer-btn" onclick="hideFooter(event)">×</div>
         <div class="input-group">
             <input type="text" id="url-1" placeholder="YouTube URL 1" onkeydown="handleKey(event)">
             <input type="text" id="url-2" placeholder="YouTube URL 2" onkeydown="handleKey(event)">
@@ -355,8 +377,16 @@
             if (event.key === 'Enter') {
                 loadVideos();
                 document.activeElement.blur();
-                document.getElementById('footer').classList.add('hide');
+                hideFooter();
             }
+        }
+
+        function hideFooter(event) {
+            if (event) event.stopPropagation();
+            const footer = document.getElementById('footer');
+            footer.classList.add('hide');
+            footer.dataset.manuallyHidden = "true";
+            clearTimeout(hideTimeout);
         }
 
         // Persistence
@@ -382,12 +412,23 @@
         }
 
         // Auto-hide Logic
-        function resetHideTimer() {
+        function resetHideTimer(event) {
             const footer = document.getElementById('footer');
+
+            const clientY = event.clientY || (event.touches ? event.touches[0].clientY : event.pageY || 0);
+            const distanceFromBottom = window.innerHeight - clientY;
+
+            if (footer.dataset.manuallyHidden === "true") {
+                if (distanceFromBottom < 30) {
+                    footer.dataset.manuallyHidden = "false";
+                } else {
+                    return;
+                }
+            }
+
             footer.classList.remove('hide');
             clearTimeout(hideTimeout);
             hideTimeout = setTimeout(() => {
-                // Don't hide if input is focused
                 if (document.activeElement.tagName !== 'INPUT') {
                     footer.classList.add('hide');
                 }
