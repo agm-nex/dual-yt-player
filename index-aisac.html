@@ -274,13 +274,13 @@
 <body>
 
     <div id="header-area">
-        <h1 id="main-title" contenteditable="true" oninput="saveData()">Dual Stream Hub</h1>
+        <h1 id="main-title" contenteditable="true" oninput="saveData()">AISAC DAY 2 | FEBRUARY 6, 2026</h1>
     </div>
 
     <div id="main-container">
         <!-- Video Player 1 -->
         <div class="video-box">
-            <h2 class="editable-title" id="title-1" contenteditable="true" oninput="saveData()">Stream 1</h2>
+            <h2 class="editable-title" id="title-1" contenteditable="true" oninput="saveData()">MONARCHS</h2>
             <div class="player-container">
                 <div id="player1"></div>
             </div>
@@ -288,7 +288,7 @@
 
         <!-- Video Player 2 -->
         <div class="video-box">
-            <h2 class="editable-title" id="title-2" contenteditable="true" oninput="saveData()">Stream 2</h2>
+            <h2 class="editable-title" id="title-2" contenteditable="true" oninput="saveData()">TROPICAL</h2>
             <div class="player-container">
                 <div id="player2"></div>
             </div>
@@ -315,8 +315,8 @@
         function onYouTubeIframeAPIReady() {
             restoreData();
 
-            const vid1 = extractId(document.getElementById('url-1').value) || 'jfKfPfyJRdk';
-            const vid2 = extractId(document.getElementById('url-2').value) || 'dQw4w9WgXcQ';
+            const vid1 = extractId(document.getElementById('url-1').value) || 'JRsxjxSu540';
+            const vid2 = extractId(document.getElementById('url-2').value) || 'CUvXUVHDe7g';
 
             p1 = new YT.Player('player1', {
                 height: '100%',
@@ -401,3 +401,4 @@
 </body>
 
 </html>
+
